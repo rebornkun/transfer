@@ -12,11 +12,19 @@ const Home = () => {
                     <p className='text-darkgrey font-[400] leading-tight text-[0.8rem]'>sending from the <br></br>United kingdom</p>
                     <CountryBox />
                 </div>
-                <InputText />
+                <InputText color={'black'} id={1}/>
             </div>
-            <div className="middleLine flex flex-row w-full ">
+            <div className="middleLine flex flex-row w-full h-[30px] my-2 justify-center items-center gap-1">
             <BothArrows />
-            <p>dd</p>
+            <div className="line h-[0.5px] bg-grey flex-auto"></div>
+            <p className="text-[0.8rem] text-darkgrey">1 GBP = 5.13477 PLN ~ Delivery fee £0.00</p>
+            </div>
+            <div className="flex flex-row justify-between items-center">
+                <div className="flex flex-col gap-1">
+                    <p className='text-darkgrey font-[400] leading-tight text-[0.8rem]'>receiving in Poland</p>
+                    <CountryBox />
+                </div>
+                <InputText color={'green'} id={2}/>
             </div>
             </div>
         </div>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-const InputText = () => {
+const InputText = ({color, id}) => {
     const [state, setState] = useState()
     const [value, setValue] = useState(0)
     const activateEdit = (e) => {
@@ -11,7 +11,7 @@ const InputText = () => {
     useEffect(()=>{
         window.addEventListener('click', (e) => {
             let classes = e?.target?.classList?.value
-            if (classes.includes('edittrigger')) {
+            if (classes.includes(`edittrigger${id}`)) {
                 setState('edit')
             } else {
                 setState('display')
@@ -26,16 +26,17 @@ const InputText = () => {
                state === 'edit' ? 
                     <input 
                         type='number'
-               className='edittrigger text-end text-[2rem] font-[600] w-full' 
-                        value={value}
+               className={`edittrigger${id} edittrigger text-end text-[2rem] font-[600] w-full`} 
+                    value={value}
                onClick={activateEdit}         
                 onChange={(e) =>{
                 e.preventDefault()
                     setValue(e.target.value)
-                }
-            }/>
+                }}
+                style={{ color: color }}
+            />
                :
-               <p onClick={activateEdit} className='edittrigger text-[2rem] font-[600] text-end'>{Number(value).toFixed(2)}</p>
+               <p onClick={activateEdit} className={`edittrigger${id} edittrigger text-[2rem] font-[600] text-end`} style={{ color: color }}>{Number(value).toFixed(2)}</p>
             }
         </div>
     );
