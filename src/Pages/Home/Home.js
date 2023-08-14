@@ -16,7 +16,7 @@ const Home = () => {
             </div>
             <div className="middleLine flex flex-row w-full ">
             <BothArrows />
-
+            <p>dd</p>
             </div>
             </div>
         </div>
