@@ -1,49 +1,76 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&family=Poppins:wght@300;500;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&family=Poppins:wght@300;500;700&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   html {
-    font-family: 'Poppins', sans-serif !important;
+    font-family: "Poppins", sans-serif !important;
   }
 }
 
 body {
   margin: 0;
   /* font-family: 'Inter', sans-serif; */
-font-family: 'Poppins', sans-serif !important;
+  font-family: "Poppins", sans-serif !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: rgb(239, 239, 239);
+  background-color: rgb(72, 72, 72);
+  overflow: hidden;
 }
 
 .login .ant-input {
   width: 100%;
-    padding: 10px 15px;
-    font-size: 1rem;
-    font-family: 'Poppins', sans-serif !important;
+  padding: 10px 15px;
+  font-size: 1rem;
+  font-family: "Poppins", sans-serif !important;
 }
 
 .login .ant-input-affix-wrapper {
   width: 100%;
-    padding: 10px 15px;
-    font-size: 1rem;
-    font-family: 'Poppins', sans-serif !important;
+  padding: 10px 15px;
+  font-size: 1rem;
+  font-family: "Poppins", sans-serif !important;
 }
 .login button {
   width: 100%;
-    padding: 10px 15px;
-    font-size: 1rem;
-    font-family: 'Poppins', sans-serif !important;
-    height: 100%;
-  }
-  
-body p{
-  font-family: 'Poppins', sans-serif !important;
-
+  padding: 10px 15px;
+  font-size: 1rem;
+  font-family: "Poppins", sans-serif !important;
+  height: 100%;
 }
 
-input.edittrigger:focus{
+body p {
+  font-family: "Poppins", sans-serif !important;
+}
+
+input:focus {
   outline: none;
+}
+
+.selectCurrency.close {
+  transform: translateY(100%);
+  -webkit-transform: translateY(100%);
+  -moz-transform: translateY(100%);
+  -ms-transform: translateY(100%);
+  -o-transform: translateY(100%);
+}
+.selectCurrency.open {
+  transform: translateY(0%);
+  -webkit-transform: translateY(0%);
+  -moz-transform: translateY(0%);
+  -ms-transform: translateY(0%);
+  -o-transform: translateY(0%);
+}
+.home.unshow {
+  transform: scale(0.95);
+  -webkit-transform: scale(0.95);
+  -moz-transform: scale(0.95);
+  -ms-transform: scale(0.95);
+  -o-transform: scale(0.95);
+  border-radius: 15px;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  -ms-border-radius: 15px;
+  -o-border-radius: 15px;
 }
