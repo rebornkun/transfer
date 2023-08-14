@@ -1,5 +1,5 @@
 import InputText from "../../components/InputText";
-import { useEffect, useState } from 'react';
+import CountryBox from "../../components/CountryBox";
 
 const Home = () => {
     return (
@@ -7,8 +7,9 @@ const Home = () => {
             <div>
             <p className="mt-2 w-full font-[500] text-center">International transfer</p>
             <div className="mt-4 flex flex-row justify-between items-center">
-                <div>
-                    <p className='text-darkgrey font-[400] leading-tight'>sending from the <br></br>United kingdom</p>
+                <div className="flex flex-col gap-1">
+                    <p className='text-darkgrey font-[400] leading-tight text-[0.8rem]'>sending from the <br></br>United kingdom</p>
+                    <CountryBox />
                 </div>
                 <InputText />
             </div>
