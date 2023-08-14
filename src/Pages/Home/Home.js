@@ -1,5 +1,6 @@
 import InputText from "../../components/InputText";
 import CountryBox from "../../components/CountryBox";
+import { BothArrows } from "../../assets/svg/svg";
 
 const Home = () => {
     return (
@@ -12,6 +13,10 @@ const Home = () => {
                     <CountryBox />
                 </div>
                 <InputText />
+            </div>
+            <div className="middleLine flex flex-row w-full ">
+            <BothArrows />
+
             </div>
             </div>
         </div>
