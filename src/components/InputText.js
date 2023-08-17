@@ -1,8 +1,15 @@
 import { useEffect, useState } from "react";
+import { useAppContext } from "../context/AppContext";
 
 const InputText = ({ color, id }) => {
+  const {
+    runForex,
+    updateRecieverAmount,
+    updateSenderAmount,
+    receiverAmount,
+    senderAmount,
+  } = useAppContext();
   const [state, setState] = useState();
-  const [value, setValue] = useState(0);
   const activateEdit = (e) => {
     e.preventDefault();
     setState("edit");
@@ -18,7 +25,12 @@ const InputText = ({ color, id }) => {
       }
     });
   }, []);
-  console.log(state);
+
+  useEffect(() => {
+    if (state === "display") {
+      runForex(id);
+    }
+  }, [state]);
 
   return (
     <div className="w-1/2">
@@ -26,11 +38,15 @@ const InputText = ({ color, id }) => {
         <input
           type="number"
           className={`edittrigger${id} edittrigger text-end text-[2rem] font-[600] w-full`}
-          value={value}
+          value={id === 1 ? senderAmount : receiverAmount}
           onClick={activateEdit}
           onChange={(e) => {
             e.preventDefault();
-            setValue(e.target.value);
+            if (id === 1) {
+              updateSenderAmount(Number(e.target.value));
+            } else {
+              updateRecieverAmount(Number(e.target.value));
+            }
           }}
           style={{ color: color }}
         />
@@ -40,7 +56,9 @@ const InputText = ({ color, id }) => {
           className={`edittrigger${id} edittrigger text-[2rem] font-[600] text-end`}
           style={{ color: color }}
         >
-          {Number(value).toFixed(2)}
+          {id === 1
+            ? Number(Number(senderAmount).toFixed(2)).toLocaleString(2)
+            : Number(Number(receiverAmount).toFixed(2)).toLocaleString(2)}
         </p>
       )}
     </div>

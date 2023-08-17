@@ -1,6 +1,9 @@
 import {
   TOOGLE_SELECT_COUNTRY,
+  UPDATE_RATE,
+  UPDATE_RECEIVER_AMOUNT,
   UPDATE_RECEIVER_DETAILS,
+  UPDATE_SENDER_AMOUNT,
   UPDATE_SENDER_DETAILS,
 } from "./actions";
 
@@ -22,6 +25,24 @@ export const reducer = (state, action) => {
     return {
       ...state,
       receiverObj: action.payload.receiverObj,
+    };
+  }
+  if (action.type === UPDATE_SENDER_AMOUNT) {
+    return {
+      ...state,
+      senderAmount: action.payload.senderAmount,
+    };
+  }
+  if (action.type === UPDATE_RECEIVER_AMOUNT) {
+    return {
+      ...state,
+      receiverAmount: action.payload.receiverAmount,
+    };
+  }
+  if (action.type === UPDATE_RATE) {
+    return {
+      ...state,
+      rate: action.payload.rate,
     };
   }
 };

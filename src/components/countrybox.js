@@ -13,7 +13,6 @@ const CountryBox = ({ type }) => {
       setObj(receiverObj);
     }
   }, [senderObj, receiverObj]);
-
   return (
     <div
       className="flex flex-row gap-2 items-center cursor-pointer"

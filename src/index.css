@@ -17,6 +17,18 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background-color: rgb(72, 72, 72);
   overflow: hidden;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  width: 100vw;
+}
+
+#root {
+  height: 100%;
+  width: 100%;
 }
 
 .login .ant-input {

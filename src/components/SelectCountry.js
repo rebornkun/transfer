@@ -10,7 +10,7 @@ const SelectCountry = () => {
     <div
       className={`${
         isSelectCountryOpen ? "open" : "close"
-      } selectCurrency transition duration-400 ease-in-out w-full h-[95vh] absolute bottom-0 left-0 right-0 bg-white rounded-tl-[30px] rounded-tr-[30px] shadow flex flex-col`}
+      } selectCurrency transition duration-400 ease-in-out w-full h-[95%] absolute bottom-0 left-0 right-0 bg-white rounded-tl-[30px] rounded-tr-[30px] shadow flex flex-col`}
     >
       <div className="px-2 mt-4 flex flex-row gap-6 items-center">
         <div
