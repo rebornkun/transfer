@@ -10,6 +10,7 @@ const CurrencyBtn = ({ flag, name, currency }) => {
     senderObj,
     receiverObj,
     runForex,
+    isSelectCountryOpen,
   } = useAppContext();
 
   const [obj, setObj] = useState();
@@ -36,8 +37,8 @@ const CurrencyBtn = ({ flag, name, currency }) => {
     } else {
       setObj(receiverObj);
     }
-    runForex(1);
   }, [senderObj, receiverObj, selectCountryType]);
+
   return (
     <div
       className="p-2 flex flex-row gap-4 items-center cursor-pointer hover:bg-[#8085ff]"

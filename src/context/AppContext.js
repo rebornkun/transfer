@@ -74,7 +74,6 @@ const ContextProvider = ({ children }) => {
     });
   };
   const updateSenderAmount = (amount) => {
-    console.log(amount);
     dispatch({
       type: UPDATE_SENDER_AMOUNT,
       payload: {
@@ -83,7 +82,6 @@ const ContextProvider = ({ children }) => {
     });
   };
   const updateRecieverAmount = (amount) => {
-    console.log(amount);
     dispatch({
       type: UPDATE_RECEIVER_AMOUNT,
       payload: {
@@ -93,8 +91,8 @@ const ContextProvider = ({ children }) => {
   };
 
   const runForex = (id) => {
-    console.log("forex");
-    const sixHours = 1000 * 60 * 60 * 6;
+    // console.log("forex");
+    const sixHours = 1000 * 60 * 60 * 24;
     let lastForexTime;
     lastForexTime = new Date(localStorage.getItem("lastForexTime")).getTime();
     const nowTime = new Date().getTime();
@@ -105,19 +103,25 @@ const ContextProvider = ({ children }) => {
       //new forex
       axios
         .get(
-          `http://api.exchangeratesapi.io/v1/latest?access_key=${process.env.REACT_APP_API_KEY}`
+          `https://api.currencyapi.com/v3/latest?apikey=${process.env.REACT_APP_API_KEY}`
+          // `http://api.exchangeratesapi.io/v1/latest?access_key=${process.env.REACT_APP_API_KEY}`
         )
         .then(function (response) {
           console.log(response);
-          localStorage.setItem("exchange", JSON.stringify(response.data));
-          localStorage.setItem("lastForexTime", new Date());
-          convertCurrency(
-            state.senderObj.currencyName,
-            state.senderAmount,
-            state.receiverObj.currencyName,
-            state.receiverAmount,
-            id
-          );
+          if (response.data) {
+            localStorage.setItem(
+              "exchange",
+              JSON.stringify(response.data.data)
+            );
+            localStorage.setItem("lastForexTime", new Date());
+            convertCurrency(
+              state.senderObj.currencyName,
+              state.senderAmount,
+              state.receiverObj.currencyName,
+              state.receiverAmount,
+              id
+            );
+          }
         })
         .catch(function (error) {
           alert("sorry, an error occurred!");
@@ -142,50 +146,46 @@ const ContextProvider = ({ children }) => {
     id
   ) => {
     const exchange = JSON.parse(localStorage.getItem("exchange"));
-    Object.keys(exchange.rates).filter((keys) => keys === firstCurrency);
+    // Object.keys(exchange.rates).filter((keys) => keys === firstCurrency);
     if (id === 1) {
       let firstCurrencyEx =
-        exchange.rates[
-          Object.keys(exchange.rates).filter((keys) => keys === firstCurrency)
+        exchange[
+          Object.keys(exchange).filter((keys) => keys === firstCurrency)
         ];
-      let firstCurrencyToEUR = firstAmount / firstCurrencyEx;
+      let firstCurrencyToEUR = firstAmount / firstCurrencyEx?.value;
       let secondCurrencyEx =
-        exchange.rates[
-          Object.keys(exchange.rates).filter((keys) => keys === secondCurrency)
+        exchange[
+          Object.keys(exchange).filter((keys) => keys === secondCurrency)
         ];
       let firstCurrencyInEURToSecondCurrency =
-        firstCurrencyToEUR * secondCurrencyEx;
+        firstCurrencyToEUR * secondCurrencyEx?.value;
       updateRecieverAmount(
         Number(Number(firstCurrencyInEURToSecondCurrency).toFixed(2))
       );
     } else if (id === 2) {
       let secondCurrencyEx =
-        exchange.rates[
-          Object.keys(exchange.rates).filter((keys) => keys === secondCurrency)
+        exchange[
+          Object.keys(exchange).filter((keys) => keys === secondCurrency)
         ];
-      let secondCurrencyToEUR = secondAmount / secondCurrencyEx;
+      let secondCurrencyToEUR = secondAmount / secondCurrencyEx?.value;
       let firstCurrencyEx =
-        exchange.rates[
-          Object.keys(exchange.rates).filter((keys) => keys === firstCurrency)
+        exchange[
+          Object.keys(exchange).filter((keys) => keys === firstCurrency)
         ];
       let secondCurrencyInEURToSecondCurrency =
-        secondCurrencyToEUR * firstCurrencyEx;
+        secondCurrencyToEUR * firstCurrencyEx?.value;
       updateSenderAmount(
         Number(Number(secondCurrencyInEURToSecondCurrency).toFixed(2))
       );
     }
 
     let firstCurrencyExRate =
-      exchange.rates[
-        Object.keys(exchange.rates).filter((keys) => keys === firstCurrency)
-      ];
-    let firstCurrencyToEUR = 1 / firstCurrencyExRate;
+      exchange[Object.keys(exchange).filter((keys) => keys === firstCurrency)];
+    let firstCurrencyToEUR = 1 / firstCurrencyExRate?.value;
     let secondCurrencyEx =
-      exchange.rates[
-        Object.keys(exchange.rates).filter((keys) => keys === secondCurrency)
-      ];
+      exchange[Object.keys(exchange).filter((keys) => keys === secondCurrency)];
     let firstCurrencyInEURToSecondCurrency =
-      firstCurrencyToEUR * secondCurrencyEx;
+      firstCurrencyToEUR * secondCurrencyEx?.value;
 
     updateRate({
       firstCurrency: firstCurrency,

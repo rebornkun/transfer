@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Cancel, SearchSvg } from "../assets/svg/svg";
 import { useAppContext } from "../context/AppContext";
 import CurrencyBtn from "./CurrencyBtn";
@@ -5,7 +6,12 @@ import { countries } from "./countries";
 
 const SelectCountry = () => {
   const onSearch = (value) => console.log(value);
-  const { toogleSelectCountry, isSelectCountryOpen } = useAppContext();
+  const { toogleSelectCountry, isSelectCountryOpen, runForex } =
+    useAppContext();
+
+  useEffect(() => {
+    runForex(1);
+  }, [isSelectCountryOpen]);
   return (
     <div
       className={`${

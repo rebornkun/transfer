@@ -5,17 +5,24 @@ import { useAppContext } from "../../context/AppContext";
 import { useEffect, useState } from "react";
 import Rate from "./Rate";
 import { Button } from "antd";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const { isSelectCountryOpen, senderObj, receiverObj, receiverAmount } =
     useAppContext();
   const [senderLocalObj, setSenderLocalObj] = useState();
   const [receiverLocalObj, setReceiverLocalObj] = useState();
-
+  const navigate = useNavigate();
   useEffect(() => {
     setSenderLocalObj(senderObj);
     setReceiverLocalObj(receiverObj);
   }, [senderObj, receiverObj]);
+
+  const goToReceiver = () => {
+    if (receiverAmount > 0) {
+      navigate("/receivers");
+    }
+  };
   return (
     <div className="home_container max-w-[600px] mx-auto h-full relative">
       <div
@@ -24,7 +31,7 @@ const Home = () => {
         } transition duration-400 ease-in-out w-full h-full bg-white p-2 flex flex-col justify-between`}
       >
         <div>
-          <p className="w-full font-[500] text-center !font-custom">
+          <p className="w-full font-[500] text-center !font-custom mb-2">
             International transfer
           </p>
           <div className="mt-4 flex flex-row justify-between items-center">
@@ -41,7 +48,7 @@ const Home = () => {
           <div className="flex flex-row justify-between items-center">
             <div className="flex flex-col gap-1">
               <p className="text-darkgrey font-[400] leading-tight text-[0.8rem]">
-                Receiving in {receiverLocalObj?.countryName}
+                Receiving in<br></br> {receiverLocalObj?.countryName}
               </p>
               <CountryBox type="receiver" />
             </div>
@@ -59,7 +66,8 @@ const Home = () => {
         <Button
           type="primary"
           htmlType="submit"
-          className="w-full h-[40px] py-2 bg-blue mb-2 text-[1rem] font-bold font-custom"
+          className="w-full h-[45px] py-2 bg-blue mb-2 text-[1rem] font-bold font-custom"
+          onClick={goToReceiver}
         >
           Continue
         </Button>
