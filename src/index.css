@@ -242,3 +242,17 @@ nav a.active p {
 .statusDetailsSvg svg path {
   fill: grey;
 }
+
+.contact_modal .ant-modal-content {
+  height: 90%;
+  font-family: "Poppins", sans-serif !important;
+  display: flex;
+  flex-direction: column;
+}
+.contact_modal .ant-modal-body {
+  flex: auto;
+}
+.contact_modal .ant-modal-footer .ant-btn + .ant-btn:not(.ant-dropdown-trigger),
+.contact_modal .ant-btn-default {
+  display: none;
+}

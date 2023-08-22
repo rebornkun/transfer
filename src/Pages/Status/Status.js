@@ -8,12 +8,14 @@ import { doc, getDoc } from "firebase/firestore";
 import Notification from "../../components/Notification";
 import { Spin } from "antd";
 import { convertToSymbol } from "./../../utils/helper";
+import Contact from "../../components/Contact";
 
 const Status = () => {
   const params = useParams();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState();
+  const [showContact, setShowContact] = useState(false);
 
   const onlyFirstName = (name) => {
     if (name) {
@@ -65,7 +67,7 @@ const Status = () => {
               <img src={transfergo} alt="flag" className="h-[30px] w-[110px]" />
             </div>
             <div className="others flex flex-row items-center">
-              <div className="hover:bg-blue rounded-[5px] transition duration-400 ease-in-out w-fit h-fit p-5 cursor-pointer">
+              <div className="hover:bg-blue rounded-[5px] transition duration-400 ease-in-out w-fit h-fit p-5 cursor-pointer" onClick={()=>setShowContact(true)}>
                 <PhoneSvg />
               </div>
               <div className="hover:bg-blue rounded-[5px] transition duration-400 ease-in-out w-fit h-fit cursor-pointer flex flex-row justify-start gap-2 items-center pt-3 pr-3 pb-3">
@@ -225,6 +227,13 @@ const Status = () => {
           </p>
         </div>
       </div>
+      <Contact
+        show={showContact}
+        handleOk={() => {}}
+        handleCancel={() => {
+          setShowContact(false);
+        }}
+      />
     </div>
   );
 };

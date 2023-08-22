@@ -14,32 +14,21 @@ import {
 import { useEffect, useState } from "react";
 import { Button } from "antd";
 import { convertToSymbol } from "../../utils/helper";
+import Contact from "../../components/Contact";
+import Payment from "../../components/Payment";
 
 const StatusDetails = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [data, setData] = useState({});
+  const [showContact, setShowContact] = useState(false);
+  const [showPayment, setShowPayment] = useState(false);
   const goBack = () => {
     navigate(-1);
   };
   const handleNumber = (number) => {
     let numArr = number.split("");
     let final = [];
-    // numArr.map((num, i) => {
-    //   if (i <= 6 || ) {
-    //     final += `${num}`;
-    //   }
-    // });
-    // numArr.map((num, i) => {
-    //   if (i <= 4) {
-    //     final += `·`;
-    //   }
-    // });
-    // numArr.map((num, i) => {
-    //   if (i <= numArr.length && i >= numArr.length - 4) {
-    //     final += `${num}`;
-    //   }
-    // });
     for (let i = 0; i < numArr.length; i++) {
       if (i < numArr.length - 4) {
         final.push("*");
@@ -47,13 +36,7 @@ const StatusDetails = () => {
         final.push(numArr[i]);
       }
     }
-    // console.log
     return final.join("");
-    // return `${numArr[0]}${numArr[1]}${numArr[2]}${numArr[3]}${numArr[4]}${
-    //   numArr[5]
-    // }····${numArr[numArr.length - 3]}${numArr[numArr.length - 2]}${
-    //   numArr[numArr.length - 1]
-    // }${numArr[numArr.length]}`;
   };
   useEffect(() => {
     if (!location.state) {
@@ -190,7 +173,10 @@ const StatusDetails = () => {
             <div className="statusDetailsSvg flex flex-row gap-6 items-center w-full">
               <QuestionSvg />
               <div className="flex flex-col w-full cursor-pointer">
-                <p className="leading-tight my-1 mt-3">
+                <p
+                  className="leading-tight my-1 mt-3"
+                  onClick={() => setShowContact(true)}
+                >
                   Contact customer support
                 </p>
                 <div className="bg-grey h-[1px] w-full mt-3"></div>
@@ -206,14 +192,32 @@ const StatusDetails = () => {
           </div>
           <Button
             type="primary"
-            htmlType="submit"
             className="w-full h-[45px] py-2 bg-blue mb-2 text-[1rem] font-bold font-custom"
-            // onClick={completeProcess}
+            onClick={() => setShowPayment(true)}
           >
             Payment instructions
           </Button>
         </div>
       </div>
+      <Contact
+        show={showContact}
+        handleOk={() => {}}
+        handleCancel={() => {
+          setShowContact(false);
+        }}
+      />
+      <Payment
+        show={showPayment}
+        handleOk={() => {}}
+        handleCancel={() => {
+          setShowPayment(false);
+        }}
+        amount={`${convertToSymbol(data?.receiverObj?.currencyName)}${
+          data?.delivery_fee
+        }`}
+        txn_id={data?.id}
+        data={data}
+      />
     </div>
   );
 };
