@@ -8,17 +8,18 @@ module.exports = {
       xl: "1280px",
       lg: "1024px",
       md: "860px",
-      sm: "576px",
+      sm: "640px",
     },
     fontFamily: {
       inter: ["Inter", "sans-serif"],
-      'custom': ['Poppins', "serif"], // Ensure fonts with spaces have " " surrounding it.
+      custom: ["Poppins", "serif"], // Ensure fonts with spaces have " " surrounding it.
     },
     extend: {
       colors: {
         white: "#fff",
         yellow: "#FABE28",
         blue: "#1B4C84",
+        lightblue: "#e6e6fa",
         darkgrey: "#4B4B4B",
         lightgrey: "#A7AAB1",
         grey: "#DADADA",
@@ -31,5 +32,4 @@ module.exports = {
     },
   },
   plugins: [],
-}
-
+};

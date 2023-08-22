@@ -5,7 +5,9 @@ import { useAppContext } from "../../context/AppContext";
 import { useEffect, useState } from "react";
 import Rate from "./Rate";
 import { Button } from "antd";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import Notification from "../../components/Notification";
+import { HomeSvg, TransferSvg } from "../../assets/svg/svg";
 
 const Home = () => {
   const { isSelectCountryOpen, senderObj, receiverObj, receiverAmount } =
@@ -21,6 +23,11 @@ const Home = () => {
   const goToReceiver = () => {
     if (receiverAmount > 0) {
       navigate("/receivers");
+    } else {
+      Notification.displayInfo({
+        message: "Warning",
+        description: "Money must be greater than 0",
+      });
     }
   };
   return (
@@ -30,7 +37,7 @@ const Home = () => {
           isSelectCountryOpen ? "unshow" : "show"
         } transition duration-400 ease-in-out w-full h-full bg-white p-2 flex flex-col justify-between`}
       >
-        <div>
+        <div className="flex-auto">
           <p className="w-full font-[500] text-center !font-custom mb-2">
             International transfer
           </p>
@@ -71,6 +78,19 @@ const Home = () => {
         >
           Continue
         </Button>
+        <nav className="pt-2  w-full border-t-2 border-grey flex flex-row gap-6 justify-around items-center">
+          <NavLink to={"/home"} className={"flex flex-col gap-1 items-center"}>
+            <HomeSvg />
+            <p className="text-[0.7rem]">Home</p>
+          </NavLink>
+          <NavLink
+            to={"/transfers"}
+            className={"flex flex-col gap-1 items-center"}
+          >
+            <TransferSvg />
+            <p className="text-[0.7rem]">Transfers</p>
+          </NavLink>
+        </nav>
       </div>
       <SelectCountry />
     </div>

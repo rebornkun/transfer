@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAppContext } from "../context/AppContext";
 
-const CurrencyBtn = ({ flag, name, currency }) => {
+const CurrencyBtn = ({ flag, name, currency, ISO }) => {
   const {
     updateSenderObj,
     updateReceiverObj,
@@ -20,12 +20,14 @@ const CurrencyBtn = ({ flag, name, currency }) => {
         currencyName: currency,
         flag: flag,
         countryName: name,
+        ISO: ISO,
       });
     } else {
       updateReceiverObj({
         currencyName: currency,
         flag: flag,
         countryName: name,
+        ISO: ISO,
       });
     }
     toogleSelectCountry(false);

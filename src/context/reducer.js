@@ -1,4 +1,6 @@
 import {
+  SET_USER_DATA,
+  SET_USER_DATA_STATE,
   TOOGLE_SELECT_COUNTRY,
   UPDATE_RATE,
   UPDATE_RECEIVER_AMOUNT,
@@ -43,6 +45,18 @@ export const reducer = (state, action) => {
     return {
       ...state,
       rate: action.payload.rate,
+    };
+  }
+  if (action.type === SET_USER_DATA) {
+    return {
+      ...state,
+      userData: action.payload.userData,
+    };
+  }
+  if (action.type === SET_USER_DATA_STATE) {
+    return {
+      ...state,
+      isUserDataSet: action.payload.isUserDataSet,
     };
   }
 };

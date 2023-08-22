@@ -45,6 +45,7 @@ const SelectCountry = () => {
               flag={country.flag}
               name={country.name}
               currency={country.currency}
+              ISO={country.ISO}
             />
           );
         })}

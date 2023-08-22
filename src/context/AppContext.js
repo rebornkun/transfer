@@ -1,6 +1,8 @@
 import { createContext, useContext, useReducer } from "react";
 import { reducer } from "./reducer";
 import {
+  SET_USER_DATA,
+  SET_USER_DATA_STATE,
   TOOGLE_SELECT_COUNTRY,
   UPDATE_RATE,
   UPDATE_RECEIVER_AMOUNT,
@@ -10,22 +12,36 @@ import {
 } from "./actions";
 import united_kingdomFlag from "../assets/imgs/united_kingdom.png";
 import axios from "axios";
+import {
+  collection,
+  doc,
+  getDoc,
+  onSnapshot,
+  setDoc,
+} from "firebase/firestore";
+import { db } from "../config/firebase";
+import Notification from "../components/Notification";
+const userCollectionRef = collection(db, "Users");
 
 const AppContext = createContext();
 
 const initialState = {
+  userData: {},
+  isUserDataSet: false,
   isSelectCountryOpen: false,
   selectCountryType: "",
   senderObj: {
     currencyName: "GBP",
     flag: united_kingdomFlag,
     countryName: "United Kingdom",
+    ISO: "GB",
   },
   senderAmount: 0,
   receiverObj: {
     currencyName: "GBP",
     flag: united_kingdomFlag,
     countryName: "United Kingdom",
+    ISO: "GB",
   },
   receiverAmount: 0,
   rate: {
@@ -194,6 +210,60 @@ const ContextProvider = ({ children }) => {
     });
   };
 
+  const getUserData = async () => {
+    const userStore = localStorage.getItem("user");
+    const uid = JSON.parse(userStore).uid;
+    try {
+      onSnapshot(doc(db, "Users", uid), (doc) => {
+        if (doc.metadata.fromCache) {
+          Notification.displayInfo({
+            message: "Error",
+            description: "No Internet Connection, Refresh Page!",
+          });
+          return;
+        }
+        if (!doc.data()) {
+          Notification.displayInfo({
+            message: "Error",
+            description: "Something went wrong somewhere, Please try again!",
+          });
+        } else {
+          console.log("Current data: ", doc.data());
+          dispatch({
+            type: SET_USER_DATA,
+            payload: {
+              userData: doc.data(),
+            },
+          });
+          dispatch({
+            type: SET_USER_DATA_STATE,
+            payload: {
+              isUserDataSet: true,
+            },
+          });
+        }
+      });
+    } catch (e) {
+      Notification.displayInfo({
+        message: "Error",
+        description: e.code || e.message,
+      });
+    }
+  };
+
+  const updateUserData = async (data) => {
+    try {
+      const res = await setDoc(doc(userCollectionRef, state.userData.id), data);
+      return res;
+    } catch (e) {
+      Notification.displayInfo({
+        message: "Error",
+        description: e.code || e.message,
+      });
+      return e;
+    }
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -204,6 +274,8 @@ const ContextProvider = ({ children }) => {
         runForex,
         updateRecieverAmount,
         updateSenderAmount,
+        getUserData,
+        updateUserData,
       }}
     >
       {children}
