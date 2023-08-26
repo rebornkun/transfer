@@ -119,7 +119,7 @@ const StatusDetails = () => {
               <DeliverySvg />
               <div className="flex flex-col w-full">
                 <p className="text-darkgrey font-light text-[0.7rem] mb-1">
-                  Delivery time
+                  {data?.level === "delivery" ? "Delivery" : "Approval"} time
                 </p>
                 <p className="leading-tight">
                   {data?.delivery_time &&
@@ -151,7 +151,7 @@ const StatusDetails = () => {
               <CoinSvg />
               <div className="flex flex-col w-full">
                 <p className="text-darkgrey font-light text-[0.7rem] mb-1">
-                  Delivery fee
+                  {data?.level === "delivery" ? "Delivery" : "Approval"} fee
                 </p>
                 <p className="leading-tight">
                   {convertToSymbol(data?.receiverObj?.currencyName)}

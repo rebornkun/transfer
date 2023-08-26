@@ -56,6 +56,8 @@ const Status = () => {
     getTransferData(params.id);
   }, []);
 
+  console.log(data);
+
   return (
     <div
       className={`bg-[#001a3f] w-full h-full relative flex flex-col overflow-y-auto`}
@@ -67,7 +69,10 @@ const Status = () => {
               <img src={transfergo} alt="flag" className="h-[30px] w-[110px]" />
             </div>
             <div className="others flex flex-row items-center">
-              <div className="hover:bg-blue rounded-[5px] transition duration-400 ease-in-out w-fit h-fit p-5 cursor-pointer" onClick={()=>setShowContact(true)}>
+              <div
+                className="hover:bg-blue rounded-[5px] transition duration-400 ease-in-out w-fit h-fit p-5 cursor-pointer"
+                onClick={() => setShowContact(true)}
+              >
                 <PhoneSvg />
               </div>
               <div className="hover:bg-blue rounded-[5px] transition duration-400 ease-in-out w-fit h-fit cursor-pointer flex flex-row justify-start gap-2 items-center pt-3 pr-3 pb-3">
@@ -96,8 +101,8 @@ const Status = () => {
                   </p>
                 </div>
 
-                <div className="p-6 py-8 bg-white rounded-[20px] w-full sm:w-[50%] shadow min-w-[320px] sm:max-w-[400px] h-full">
-                  <div className="flex flex-row gap-4 h-[25%]">
+                <div className="p-6 py-8 bg-white rounded-[20px] w-full sm:w-[50%] shadow min-w-[320px] sm:max-w-[400px] h-full flex flex-col justify-between">
+                  <div className="flex flex-row gap-4 flex-1">
                     <div className="bbdot"></div>
                     <div className="flex flex-col">
                       <p className=" w-fit text-blue font-light text-[0.9rem] sm:text-[1rem]">
@@ -114,34 +119,64 @@ const Status = () => {
                     </div>
                   </div>
 
-                  <div className="flex flex-row gap-4 h-[25%]">
-                    <div className="bbdot active"></div>
+                  <div className="flex flex-row gap-4 flex-1">
+                    <div
+                      className={`bbdot ${
+                        data?.level === "delivery" && "active"
+                      }`}
+                    ></div>
                     <div className="flex flex-col">
                       <p className=" w-fit font-light text-[1.3rem]">
-                        Waiting for payment
+                        {data?.level === "delivery"
+                          ? "Waiting for payment"
+                          : "Payment Received"}
                       </p>
                       <p className=" w-fit text-blue font-light text-[0.9rem] sm:text-[1rem]">
-                        we are waiting for delivery fee
+                        {data?.level === "delivery"
+                          ? "we are waiting for delivery fee"
+                          : "We have received your delivery fee"}
                       </p>
                     </div>
                   </div>
 
-                  <div className="flex flex-row gap-4 h-[25%]">
-                    <div className="bbdot disabled"></div>
+                  <div className="flex flex-row gap-4 flex-1">
+                    <div
+                      className={`bbdot ${
+                        data?.level === "approval" ? "" : "disabled"
+                      } ${data?.level === "approval" && "active"}`}
+                    ></div>
                     <div className="flex flex-col">
-                      <p className=" w-fit text-blue font-light text-[0.9rem] sm:text-[1rem]">
-                        We process payment
-                      </p>
-                      <p className="p-1 px-2 rounded-[20px] w-fit bg-lightblue font-light text-[0.6rem]">
-                        {data?.delivery_time &&
-                          new Date(
-                            data?.delivery_time?.seconds * 1000
-                          ).toDateString()}
-                      </p>
+                      {data?.level === "approval" && (
+                        <p className=" w-fit font-light text-[1.3rem]">
+                          {data?.level === "approval"
+                            ? "Waiting for payment"
+                            : "Payment Received"}
+                        </p>
+                      )}
+                      {data?.level !== "approval" && (
+                        <p className=" w-fit text-blue font-light text-[0.9rem] sm:text-[1rem]">
+                          We process payment
+                        </p>
+                      )}
+                      {data?.level === "approval" && (
+                        <p className=" w-fit text-blue font-light text-[0.9rem] sm:text-[1rem]">
+                          {data?.level === "approval"
+                            ? "we are waiting for approval fee"
+                            : "We have received your approval fee"}
+                        </p>
+                      )}
+                      {data?.level !== "approval" && (
+                        <p className="p-1 px-2 rounded-[20px] w-fit bg-lightblue font-light text-[0.6rem]">
+                          {data?.delivery_time &&
+                            new Date(
+                              data?.delivery_time?.seconds * 1000
+                            ).toDateString()}
+                        </p>
+                      )}
                     </div>
                   </div>
 
-                  <div className="flex flex-row gap-4 h-[25%]">
+                  <div className="flex flex-row gap-4 flex-1">
                     <div className="bbdot disabled"></div>
                     <div className="flex flex-col">
                       <p className=" w-fit text-blue font-light text-[0.9rem] sm:text-[1rem]">

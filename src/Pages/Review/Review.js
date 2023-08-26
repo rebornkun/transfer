@@ -53,6 +53,7 @@ const Review = () => {
         receiverObj: receiverObj,
         payment_details: data,
         created_at: new Date(),
+        level: "delivery",
       };
 
       const newReciever = {

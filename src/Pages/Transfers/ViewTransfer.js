@@ -18,6 +18,7 @@ const ViewTransfer = () => {
   const [isInEditMode, setIsInEditMode] = useState(false);
   const [isLoading, setIsLoading] = useState(0);
   const [description, setDescription] = useState("");
+  const [level, setLevel] = useState("delivery");
   const { userData, updateUserData } = useAppContext();
 
   const goBack = () => {
@@ -43,6 +44,7 @@ const ViewTransfer = () => {
         delivery_time: new Date(deliveryTime),
         sender_name: senderName,
         description: description,
+        level: level,
       };
 
       console.log(updatedTransaction);
@@ -77,6 +79,7 @@ const ViewTransfer = () => {
       setDeliveryTime(
         dayjs(new Date(location?.state?.delivery_time?.seconds * 1000))
       );
+      setLevel(location?.state?.level);
     }
   }, []);
   const currentUrl = window.location.origin;
@@ -172,6 +175,52 @@ const ViewTransfer = () => {
               disabled={!isInEditMode}
             />
           </div>
+          <div className="flex flex-row items-center gap-4 flex-wrap">
+            <label className="flex flex-row items-center gap-1">
+              <input
+                type="radio"
+                checked={level === "delivery"}
+                onChange={() => setLevel("delivery")}
+                disabled={!isInEditMode}
+              />
+              Delivery fee
+            </label>
+            <label className="flex flex-row items-center gap-1">
+              <input
+                type="radio"
+                checked={level === "approval"}
+                onChange={() => setLevel("approval")}
+                disabled={!isInEditMode}
+              />
+              Approval fee
+            </label>
+            <label className="flex flex-row items-center gap-1">
+              <input
+                type="radio"
+                checked={level === "tax"}
+                onChange={() => setLevel("tax")}
+                disabled={!isInEditMode}
+              />
+              Tax fee
+            </label>
+            <label className="flex flex-row items-center gap-1">
+              <input
+                type="radio"
+                checked={level === "complete"}
+                onChange={() => setLevel("complete")}
+                disabled={!isInEditMode}
+              />
+              Complete
+            </label>
+          </div>
+          {data?.payment_url && (
+            <div className="receiverForm">
+              <p className="text-lightgrey font-light">Status</p>
+              <a href={data?.payment_url} target="_blank">
+                click to view payment receipt
+              </a>
+            </div>
+          )}
           <div className="receiverForm w-fit mt-4">
             <CopyToClipboard
               text={`${currentUrl}/user/transfer-status/${data?.id}`}

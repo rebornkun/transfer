@@ -244,13 +244,16 @@ nav a.active p {
 }
 
 .contact_modal .ant-modal-content {
-  height: 90%;
+  height: 100%;
   font-family: "Poppins", sans-serif !important;
   display: flex;
   flex-direction: column;
 }
 .contact_modal .ant-modal-body {
   flex: auto;
+}
+.contact_modal .ant-modal {
+  top: 70px;
 }
 .contact_modal .ant-modal-footer .ant-btn + .ant-btn:not(.ant-dropdown-trigger),
 .contact_modal .ant-btn-default {

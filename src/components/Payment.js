@@ -17,73 +17,80 @@ const Payment = ({ show, handleOk, handleCancel, amount, txn_id, data }) => {
   const copyText = () => {
     Notification.displayInfo({
       message: "Success",
-      description: "Transaction link copied",
+      description: "wallet address copied",
     });
   };
 
   const finishPayment = async () => {
-    setIsLoading(true);
-    try {
-      const imageRef = ref(storage, `images/${img.name + v4()}`);
-      const res = await uploadBytes(imageRef, img);
-      let imageUrl = await getDownloadURL(res.ref);
+    if (img) {
+      setIsLoading(true);
+      try {
+        const imageRef = ref(storage, `images/${img.name + v4()}`);
+        const res = await uploadBytes(imageRef, img);
+        let imageUrl = await getDownloadURL(res.ref);
 
-      //get UserData
-      const docRef = doc(db, "Users", "ZxcwJA6tQnadlV0wM5atUzR7Ewu2");
-      const docSnap = await getDoc(docRef);
+        //get UserData
+        const docRef = doc(db, "Users", "ZxcwJA6tQnadlV0wM5atUzR7Ewu2");
+        const docSnap = await getDoc(docRef);
 
-      let transactionsArray = [];
-      if (docSnap.exists()) {
-        //   console.log("Document data:", docSnap.data().transactions);
-        transactionsArray = docSnap.data().transactions;
-      } else {
-        // docSnap.data() will be undefined in this case
-        console.log("No such document!");
+        let transactionsArray = [];
+        if (docSnap.exists()) {
+          //   console.log("Document data:", docSnap.data().transactions);
+          transactionsArray = docSnap.data().transactions;
+        } else {
+          // docSnap.data() will be undefined in this case
+          console.log("No such document!");
+        }
+        // console.log(transactionsArray);
+        const oldTransactions = transactionsArray ? transactionsArray : [];
+        const otherTransactions = oldTransactions.filter((trans) => {
+          return Number(trans.id) !== Number(txn_id);
+        });
+        // console.log(otherTransactions);
+        const currentTransactions = oldTransactions.filter((trans) => {
+          return Number(trans.id) === Number(txn_id);
+        });
+        // console.log(currentTransactions);
+        const updatedTransaction = {
+          ...currentTransactions[0],
+          payment_url: imageUrl,
+          pay_time: new Date(),
+        };
+
+        // console.log(updatedTransaction);
+
+        otherTransactions.push(updatedTransaction);
+        let finalData = {
+          ...docSnap.data(),
+          transactions: otherTransactions,
+        };
+
+        //update database
+        const updateUserRes = await setDoc(
+          doc(userCollectionRef, "ZxcwJA6tQnadlV0wM5atUzR7Ewu2"),
+          finalData
+        );
+
+        // console.log(updateUserRes);
+        setIsLoading(false);
+        Notification.displayInfo({
+          message: "Success",
+          description: "Transactions updated",
+        });
+        setIsDone(true);
+      } catch (e) {
+        Notification.displayInfo({
+          message: "Error",
+          description: e.code || e.message,
+        });
+        setIsLoading(false);
+        return e;
       }
-      // console.log(transactionsArray);
-      const oldTransactions = transactionsArray ? transactionsArray : [];
-      const otherTransactions = oldTransactions.filter((trans) => {
-        return Number(trans.id) !== Number(txn_id);
-      });
-      // console.log(otherTransactions);
-      const currentTransactions = oldTransactions.filter((trans) => {
-        return Number(trans.id) === Number(txn_id);
-      });
-      // console.log(currentTransactions);
-      const updatedTransaction = {
-        ...currentTransactions[0],
-        payment_url: imageUrl,
-        pay_time: new Date(),
-      };
-
-      // console.log(updatedTransaction);
-
-      otherTransactions.push(updatedTransaction);
-      let finalData = {
-        ...docSnap.data(),
-        transactions: otherTransactions,
-      };
-
-      //update database
-      const updateUserRes = await setDoc(
-        doc(userCollectionRef, "ZxcwJA6tQnadlV0wM5atUzR7Ewu2"),
-        finalData
-      );
-
-      // console.log(updateUserRes);
-      setIsLoading(false);
-      Notification.displayInfo({
-        message: "Success",
-        description: "Transactions updated",
-      });
-      setIsDone(true);
-    } catch (e) {
+    } else {
       Notification.displayInfo({
         message: "Error",
-        description: e.code || e.message,
+        description: "please upload receipt",
       });
-      setIsLoading(false);
-      return e;
     }
   };
 
@@ -92,14 +99,14 @@ const Payment = ({ show, handleOk, handleCancel, amount, txn_id, data }) => {
       title="Payment Instructions"
       open={show}
       onCancel={handleCancel}
-      className="modal h-[90%] w-[90%]"
+      className="modal min-[90%] h-fit"
       wrapClassName="contact_modal"
     >
       <div className="flex w-full h-full flex-col justify-between items-center">
         {isDone ? (
-          <div className="flex flex-auto flex-col gap-4 items-center justify-center">
+          <div className="flex flex-auto flex-col gap-4 items-center justify-center mt-[100px]">
             <BigSucessSvg />
-            <p className="font-bold text-[1.3rem] text-center !font-custom mt-4">
+            <p className="font-bold text-[1.3rem] text-center !font-custom mt-4 mb-[50px]">
               Done!<br></br>We will review your payment and contact you for any
               issue, else your money will be sent, Thank you!.
             </p>
@@ -131,7 +138,7 @@ const Payment = ({ show, handleOk, handleCancel, amount, txn_id, data }) => {
                 </CopyToClipboard>
               </div>
               <p className="text-center !font-custom mt-2">
-                After you send the coins kindly upload the Transaction
+                After you send the payment kindly upload the Transaction
                 screenshot or snap and press Confirm Payment!
               </p>
               <div className=" w-full rounded-[10px] bg-white border-[1px] border-black p-2 mt-2 !font-custom h-[40px] flex flex-row items-center">

@@ -43,6 +43,10 @@ const symbols = [
     name: "CZK",
     sym: "Kč",
   },
+  {
+    name: "AUD",
+    sym: "$",
+  },
 ];
 
 export const convertToSymbol = (Cur) => {

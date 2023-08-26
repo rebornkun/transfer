@@ -5,6 +5,7 @@ import { useAppContext } from "../../context/AppContext";
 import WithIBAN from "./WithIBAN";
 import WithABA from "./WithABA";
 import WithSWIFT from "./WithSWIFT";
+import WithSORT from "./WithSORT";
 
 const AddNewReceivers = ({ setPage }) => {
   const [paymentType, setPaymentType] = useState("");
@@ -89,23 +90,39 @@ const AddNewReceivers = ({ setPage }) => {
                 </div>
               </div>
 
-              {receiverObj.currencyName === "EUR" && (
-                <div
-                  className="w-full flex flex-row border border-lightgrey rounded-[10px] items-center h-[80px] px-2 gap-2 cursor-pointer transition duration-400 ease-in-out hover:scale-[0.98]"
-                  onClick={() => setPaymentType("iban")}
-                >
-                  <div className="rounded-full h-[45px] w-[45px] flex flex-row items-center justify-center bg-grey">
-                    <BankSvg />
+              {receiverObj.currencyName === "EUR" ||
+                (receiverObj.currencyName === "GBP" && (
+                  <div
+                    className="w-full flex flex-row border border-lightgrey rounded-[10px] items-center h-[80px] px-2 gap-2 cursor-pointer transition duration-400 ease-in-out hover:scale-[0.98]"
+                    onClick={() => setPaymentType("iban")}
+                  >
+                    <div className="rounded-full h-[45px] w-[45px] flex flex-row items-center justify-center bg-grey">
+                      <BankSvg />
+                    </div>
+                    <div className="flex flex-col gap-05">
+                      <p className="h-fit text-[0.8rem]">Bank account</p>
+                      <p className="h-fit font-light text-[0.8rem] text-lightgrey">
+                        you will need their IBAN number<br></br>
+                        {`(${receiverObj.ISO}14 2004 1010 0505 0001 3M02 606)`}
+                      </p>
+                    </div>
                   </div>
-                  <div className="flex flex-col gap-05">
-                    <p className="h-fit text-[0.8rem]">Bank account</p>
-                    <p className="h-fit font-light text-[0.8rem] text-lightgrey">
-                      you will need their IBAN number<br></br>
-                      {`(${receiverObj.ISO}14 2004 1010 0505 0001 3M02 606)`}
-                    </p>
-                  </div>
+                ))}
+
+              <div
+                className="w-full flex flex-row border border-lightgrey rounded-[10px] items-center h-[80px] px-2 gap-2 cursor-pointer transition duration-400 ease-in-out hover:scale-[0.98]"
+                onClick={() => setPaymentType("sort")}
+              >
+                <div className="rounded-full h-[45px] w-[45px] flex flex-row items-center justify-center bg-grey">
+                  <BankSvg />
                 </div>
-              )}
+                <div className="flex flex-col gap-05">
+                  <p className="h-fit text-[0.8rem]">Sort code</p>
+                  <p className="h-fit font-light text-[0.8rem] text-lightgrey">
+                    you will need their sort code number
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </>
@@ -117,6 +134,8 @@ const AddNewReceivers = ({ setPage }) => {
         <WithABA setPaymentType={setPaymentType} />
       ) : paymentType === "swift" ? (
         <WithSWIFT setPaymentType={setPaymentType} />
+      ) : paymentType === "sort" ? (
+        <WithSORT setPaymentType={setPaymentType} />
       ) : (
         <></>
       )}

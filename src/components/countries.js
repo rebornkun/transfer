@@ -1,4 +1,5 @@
 import austriaFlag from "../assets/imgs/austria.png";
+import australiaFlag from "../assets/imgs/australia.png";
 import belgiumFlag from "../assets/imgs/belgium.png";
 import croatiaFlag from "../assets/imgs/croatia.png";
 import cyprusFlag from "../assets/imgs/cyprus.png";
@@ -39,6 +40,12 @@ export const countries = [
     flag: austriaFlag,
     currency: "EUR",
     ISO: "AT",
+  },
+  {
+    name: "Australia",
+    flag: australiaFlag,
+    currency: "AUD",
+    ISO: "AU",
   },
   {
     name: "Belgium",
