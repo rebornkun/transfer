@@ -155,7 +155,9 @@ const StatusDetails = () => {
                 </p>
                 <p className="leading-tight">
                   {convertToSymbol(data?.receiverObj?.currencyName)}
-                  {data?.delivery_fee?.toLocaleString()}
+                  {data?.delivery_fee
+                    ?.toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                 </p>
                 <div className="bg-grey h-[1px] w-full mt-3"></div>
               </div>
