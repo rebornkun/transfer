@@ -108,6 +108,7 @@ const StatusDetails = () => {
                   {data?.payment_details?.iban_number &&
                     handleNumber(data?.payment_details?.iban_number)}
                   {data?.payment_details?.account_number &&
+                    !data?.payment_details?.swift_code &&
                     handleNumber(data?.payment_details?.account_number)}
                   {data?.payment_details?.swift_code &&
                     handleNumber(data?.payment_details?.swift_code)}
@@ -139,9 +140,8 @@ const StatusDetails = () => {
                 <p className="leading-tight">
                   {data?.payment_details?.card_number && <p>Bank Transfer</p>}
                   {data?.payment_details?.iban_number && <p>Bank Transfer</p>}
-                  {data?.payment_details?.account_number && (
-                    <p>Bank Transfer</p>
-                  )}
+                  {data?.payment_details?.account_number &&
+                    !data?.payment_details?.swift_code && <p>Bank Transfer</p>}
                   {data?.payment_details?.swift_code && <p>Bank Transfer</p>}
                 </p>
                 <div className="bg-grey h-[1px] w-full mt-3"></div>

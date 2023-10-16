@@ -139,7 +139,7 @@ nav a.active p {
 .bbdot {
   position: relative;
   height: 100%;
-  width: 30px;
+  min-width: 30px;
 }
 .bbdot::before {
   content: "";
@@ -258,4 +258,8 @@ nav a.active p {
 .contact_modal .ant-modal-footer .ant-btn + .ant-btn:not(.ant-dropdown-trigger),
 .contact_modal .ant-btn-default {
   display: none;
+}
+
+img {
+  margin: 0;
 }

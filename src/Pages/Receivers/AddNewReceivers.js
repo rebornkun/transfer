@@ -6,6 +6,7 @@ import WithIBAN from "./WithIBAN";
 import WithABA from "./WithABA";
 import WithSWIFT from "./WithSWIFT";
 import WithSORT from "./WithSORT";
+import WithCLABE from "./WithCLABE";
 
 const AddNewReceivers = ({ setPage }) => {
   const [paymentType, setPaymentType] = useState("");
@@ -90,6 +91,21 @@ const AddNewReceivers = ({ setPage }) => {
                 </div>
               </div>
 
+              <div
+                className="w-full flex flex-row border border-lightgrey rounded-[10px] items-center h-[80px] px-2 gap-2 cursor-pointer transition duration-400 ease-in-out hover:scale-[0.98]"
+                onClick={() => setPaymentType("clabe")}
+              >
+                <div className="rounded-full h-[45px] w-[45px] flex flex-row items-center justify-center bg-grey">
+                  <BankSvg />
+                </div>
+                <div className="flex flex-col gap-05">
+                  <p className="h-fit text-[0.8rem]">To CLABE account number</p>
+                  <p className="h-fit font-light text-[0.8rem] text-lightgrey">
+                    You'll need their CLABE number and BIC/Swift code
+                  </p>
+                </div>
+              </div>
+
               {receiverObj.currencyName === "EUR" ||
                 (receiverObj.currencyName === "GBP" && (
                   <div
@@ -134,6 +150,8 @@ const AddNewReceivers = ({ setPage }) => {
         <WithABA setPaymentType={setPaymentType} />
       ) : paymentType === "swift" ? (
         <WithSWIFT setPaymentType={setPaymentType} />
+      ) : paymentType === "clabe" ? (
+        <WithCLABE setPaymentType={setPaymentType} />
       ) : paymentType === "sort" ? (
         <WithSORT setPaymentType={setPaymentType} />
       ) : (

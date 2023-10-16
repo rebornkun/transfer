@@ -19,6 +19,7 @@ import LiechtensteinFlag from "../assets/imgs/Liechtenstein.png";
 import LithuaniaFlag from "../assets/imgs/Lithuania.png";
 import LuxembourgFlag from "../assets/imgs/Luxembourg.png";
 import maltaFlag from "../assets/imgs/malta.png";
+import mexicoFlag from "../assets/imgs/mexico.png";
 import monacoFlag from "../assets/imgs/monaco.png";
 import netherlandsFlag from "../assets/imgs/netherlands.png";
 import norwayFlag from "../assets/imgs/norway.png";
@@ -184,6 +185,12 @@ export const countries = [
     flag: maltaFlag,
     currency: "EUR",
     ISO: "MT",
+  },
+  {
+    name: "Mexico",
+    flag: mexicoFlag,
+    currency: "MXN",
+    ISO: "MX",
   },
   {
     name: "Monaco",

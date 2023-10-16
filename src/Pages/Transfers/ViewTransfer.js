@@ -7,6 +7,9 @@ import dayjs from "dayjs";
 import { useAppContext } from "../../context/AppContext";
 import Notification from "../../components/Notification";
 import CopyToClipboard from "react-copy-to-clipboard";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { storage } from "../../config/firebase";
+import { v4 } from "uuid";
 
 const ViewTransfer = () => {
   const navigate = useNavigate();
@@ -20,6 +23,7 @@ const ViewTransfer = () => {
   const [description, setDescription] = useState("");
   const [level, setLevel] = useState("delivery");
   const { userData, updateUserData } = useAppContext();
+  const [img, setImg] = useState(null);
 
   const goBack = () => {
     navigate(-1);
@@ -38,7 +42,13 @@ const ViewTransfer = () => {
       const otherTransactions = oldTransactions.filter((trans) => {
         return trans.id !== data.id;
       });
-      const updatedTransaction = {
+      let fileUrl;
+      if (img) {
+        const fileRef = ref(storage, `files/${img.name + v4()}`);
+        const res = await uploadBytes(fileRef, img);
+        fileUrl = await getDownloadURL(res.ref);
+      }
+      let updatedTransaction = {
         ...data,
         delivery_fee: fee,
         delivery_time: new Date(deliveryTime),
@@ -47,14 +57,21 @@ const ViewTransfer = () => {
         level: level,
       };
 
-      console.log(updatedTransaction);
+      if (fileUrl) {
+        updatedTransaction = {
+          ...updatedTransaction,
+          taxdoc: fileUrl,
+        };
+      }
+      // console.log(updatedTransaction);
 
       otherTransactions.push(updatedTransaction);
       const updateUser = await updateUserData({
         ...userData,
         transactions: otherTransactions,
       });
-      console.log(updateUser);
+
+      // console.log(updateUser);
       setIsLoading(false);
       Notification.displayInfo({
         message: "Success",
@@ -69,6 +86,7 @@ const ViewTransfer = () => {
       });
     }
   };
+
   useEffect(() => {
     if (!location.state) {
       navigate(-1);
@@ -220,6 +238,9 @@ const ViewTransfer = () => {
                 click to view payment receipt
               </a>
             </div>
+          )}
+          {level === "tax" && (
+            <input type="file" onChange={(e) => setImg(e.target.files[0])} />
           )}
           <div className="receiverForm w-fit mt-4">
             <CopyToClipboard

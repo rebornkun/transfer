@@ -142,30 +142,30 @@ const Status = () => {
                   <div className="flex flex-row gap-4 flex-1">
                     <div
                       className={`bbdot ${
-                        data?.level === "approval" ? "" : "disabled"
+                        data?.level !== "delivery" ? "" : "disabled"
                       } ${data?.level === "approval" && "active"}`}
                     ></div>
                     <div className="flex flex-col">
-                      {data?.level === "approval" && (
+                      {data?.level !== "delivery" && (
                         <p className=" w-fit font-light text-[1.3rem]">
                           {data?.level === "approval"
                             ? "Waiting for payment"
                             : "Payment Received"}
                         </p>
                       )}
-                      {data?.level !== "approval" && (
+                      {data?.level === "delivery" && (
                         <p className=" w-fit text-blue font-light text-[0.9rem] sm:text-[1rem]">
                           We process payment
                         </p>
                       )}
-                      {data?.level === "approval" && (
+                      {data?.level !== "delivery" && (
                         <p className=" w-fit text-blue font-light text-[0.9rem] sm:text-[1rem]">
                           {data?.level === "approval"
                             ? "we are waiting for approval fee"
                             : "We have received your approval fee"}
                         </p>
                       )}
-                      {data?.level !== "approval" && (
+                      {data?.level === "delivery" && (
                         <p className="p-1 px-2 rounded-[20px] w-fit bg-lightblue font-light text-[0.6rem]">
                           {data?.delivery_time &&
                             new Date(
@@ -177,27 +177,65 @@ const Status = () => {
                   </div>
 
                   <div className="flex flex-row gap-4 flex-1">
-                    <div className="bbdot disabled"></div>
+                    <div
+                      className={`bbdot ${
+                        data?.level === "tax" ? "" : "disabled"
+                      } ${data?.level === "tax" && "active"}`}
+                    ></div>
                     <div className="flex flex-col">
-                      <p className=" w-fit text-blue font-light text-[0.9rem] sm:text-[1rem]">
-                        We send money to your account!
-                      </p>
-                      <p className="p-1 px-2 rounded-[20px] w-fit bg-lightblue font-light text-[0.6rem]">
-                        {data?.delivery_time &&
-                          new Date(
-                            data?.delivery_time?.seconds * 1000
-                          ).toDateString()}
-                      </p>
+                      {data?.level === "tax" && (
+                        <p className=" w-fit font-light text-[1.3rem]">
+                          Congrats
+                        </p>
+                      )}
+                      {data?.level !== "tax" && (
+                        <p className=" w-fit text-blue font-light text-[0.9rem] sm:text-[1rem]">
+                          We send money to your account!
+                        </p>
+                      )}
+                      {data?.level === "tax" && (
+                        <p className=" w-fit text-blue font-light text-[0.9rem] sm:text-[1rem]">
+                          {data?.level === "tax"
+                            ? "your money should reflect in your account after tax settlement"
+                            : ""}
+                        </p>
+                      )}
+                      {data?.level !== "tax" && (
+                        <p className="p-1 px-2 rounded-[20px] w-fit bg-lightblue font-light text-[0.6rem]">
+                          {data?.delivery_time &&
+                            new Date(
+                              data?.delivery_time?.seconds * 1000
+                            ).toDateString()}
+                        </p>
+                      )}
                     </div>
                   </div>
-                  <p
-                    className="text-[0.8rem] text-blue underline text-center !font-custom cursor-pointer"
-                    onClick={() =>
-                      navigate("/user/transfer-status/details", { state: data })
-                    }
-                  >
-                    Transaction details
-                  </p>
+                  {data?.level !== "tax" && (
+                    <p
+                      className="text-[0.8rem] text-blue underline text-center !font-custom cursor-pointer"
+                      onClick={() =>
+                        navigate("/user/transfer-status/details", {
+                          state: data,
+                        })
+                      }
+                    >
+                      Transaction details
+                    </p>
+                  )}
+                  {data?.level === "tax" && (
+                    <a href={data?.taxdoc} download={"tax_document"}>
+                      <p
+                        className="text-[0.8rem] text-blue underline text-center !font-custom cursor-pointer"
+                        // onClick={() =>
+                        //   navigate("/user/transfer-status/details", {
+                        //     state: data,
+                        //   })
+                        // }
+                      >
+                        click to get tax document.
+                      </p>
+                    </a>
+                  )}
                 </div>
               </div>
             </>

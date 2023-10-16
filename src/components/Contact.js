@@ -10,11 +10,11 @@ const Contact = ({ show, handleOk, handleCancel }) => {
       wrapClassName="contact_modal"
     >
       <p className="">
-        Our English Customer Support team is here Monday through Firday, 07:00 -
+        Our English Customer Support team is here Monday through Friday, 07:00 -
         18:00 (GMT).
       </p>
       <p className="mt-2">
-        Email Us: <a href="mailto:hello@transfergo.com">hello@transfergo.com</a>
+        Email Us: <a href="mailto:hello@transfergo.com">hello@transfergo.cc</a>
       </p>
       <p className="mt-2">Call Us: UK +44 7418361695</p>
     </Modal>
