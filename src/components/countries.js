@@ -6,6 +6,7 @@ import cyprusFlag from "../assets/imgs/cyprus.png";
 import czechFlag from "../assets/imgs/czech.png";
 import denmarkFlag from "../assets/imgs/denmark.png";
 import estoniaFlag from "../assets/imgs/estonia.png";
+import ecuadorFlag from "../assets/imgs/ecuador.png";
 import finlandFlag from "../assets/imgs/finland.png";
 import franceFlag from "../assets/imgs/france.png";
 import germanyFlag from "../assets/imgs/germany.png";
@@ -95,6 +96,12 @@ export const countries = [
     flag: estoniaFlag,
     currency: "EUR",
     ISO: "EE",
+  },
+  {
+    name: "Ecuador",
+    flag: ecuadorFlag,
+    currency: "USD",
+    ISO: "EC",
   },
   {
     name: "Finland",
